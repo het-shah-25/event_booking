@@ -1,6 +1,6 @@
 const express = require("express");
 const multer = require("multer");
-const Event = require("../models/eventRoutes"); // Corrected import path for the Event model
+const Event = require("../models/eventModel"); // Corrected import path for the Event model
 
 const router = express.Router();
 
