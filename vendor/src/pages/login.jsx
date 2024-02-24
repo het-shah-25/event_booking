@@ -21,6 +21,7 @@ const LoginPage = ({ onLoginSuccess }) => {
       // Log response or handle login success (e.g., save token, redirect)
       console.log(response.data);
       alert(response.data.message); // Display success message
+      localStorage.setItem("userEmail", email);
 
       // Redirect to another route upon successful login. Adjust as needed.
       navigate("/dashboard");

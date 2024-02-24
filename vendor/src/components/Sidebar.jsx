@@ -4,6 +4,7 @@ import Dashboard from "../pages/Dashboard";
 import Events from "../pages/Events";
 import Notifications from "../pages/Notifications";
 import Users from "../pages/Users";
+import CreateEvent from "./CreateEvent";
 import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
@@ -140,7 +141,7 @@ const Sidebar = () => {
           <ul class="space-y-2 font-medium">
             <li
               className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group cursor-pointer"
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/dashboard")}
             >
               {/* <a
                 href="/"
@@ -291,10 +292,11 @@ const Sidebar = () => {
       <div class="p-4 sm:ml-64">
         <div class="p-4  mt-14">
           <Routes>
-            <Route path="/" element={<Dashboard />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/events" element={<Events />} />
             <Route path="/notifications" element={<Notifications />} />
             <Route path="/users" element={<Users />} />
+            <Route path="/create-event" element={<CreateEvent />} />
           </Routes>
         </div>
       </div>
