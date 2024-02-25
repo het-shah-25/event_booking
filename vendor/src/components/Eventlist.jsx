@@ -1,41 +1,60 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import { message } from "antd";
 const EventList = () => {
   // Sample events data
-  const events = [
-    {
-      name: "Tech Conference 2024",
-      date: "2024-03-27",
-      category: "Conference",
-      status: "Scheduled",
-    },
-    {
-      name: "Web Development Workshop",
-      date: "2024-04-15",
-      category: "Workshop",
-      status: "Scheduled",
-    },
-    {
-      name: "Artificial Intelligence Symposium",
-      date: "2024-05-22",
-      category: "Symposium",
-      status: "Scheduled",
-    },
-    {
-      name: "Blockchain Expo",
-      date: "2024-06-30",
-      category: "Expo",
-      status: "Scheduled",
-    },
-    {
-      name: "Virtual Reality Meetup",
-      date: "2024-07-18",
-      category: "Meetup",
-      status: "Scheduled",
-    },
-  ];
+  const [events, setEvents] = useState([]);
   const navigate = useNavigate();
+  console.log(events);
+  useEffect(() => {
+    const fetchEvents = async () => {
+      const vendorEmail = localStorage.getItem("userEmail"); // Assuming you store the vendor email as "vendorEmail"
+      if (!vendorEmail) {
+        message.error("Vendor email not found. Please log in again.");
+        navigate("/login");
+        return;
+      }
+
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/events/vendor/${vendorEmail}`
+        );
+        setEvents(response.data);
+      } catch (error) {
+        console.error("Failed to fetch events:", error);
+        message.error(
+          error.response?.data?.message || "Failed to fetch events"
+        );
+      }
+    };
+
+    fetchEvents();
+  }, [navigate]);
+  const deleteEvent = async (eventId) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:5000/api/events/delete/${eventId}`
+      );
+      if (response.status === 200) {
+        message.success("Event deleted successfully");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+        try {
+          await fetchEvents(); // Re-fetch events to update the list after deletion
+        } catch (fetchError) {
+          console.error("Failed to fetch events after deletion:", fetchError);
+        }
+      } else {
+        // Handle non-200 responses
+        message.error("Failed to delete event");
+      }
+    } catch (error) {
+      console.error("Failed to delete event:", error);
+      message.error(error.response?.data?.message || "Failed to delete event");
+    }
+  };
 
   return (
     <div>
@@ -81,18 +100,41 @@ const EventList = () => {
                 } border-b dark:border-gray-700`}
               >
                 <td className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                  {event.name}
+                  {event.event_name}
                 </td>
-                <td className="px-6 py-4">{event.date}</td>
+                <td className="px-6 py-4">{event.event_date}</td>
                 <td className="px-6 py-4">{event.category}</td>
-                <td className="px-6 py-4">{event.status}</td>
                 <td className="px-6 py-4">
-                  <a
-                    href="#"
-                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                  {event.status === "activate" ? (
+                    <button
+                      type="button"
+                      className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                    >
+                      Activate
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900"
+                    >
+                      Inactivate
+                    </button>
+                  )}
+                </td>{" "}
+                <td className="px-6 py-4">
+                  <button
+                    type="button"
+                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                   >
-                    Edit
-                  </a>
+                    Update
+                  </button>
+                  <button
+                    onClick={() => deleteEvent(event._id)} // Use the event's ID
+                    type="button"
+                    class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}

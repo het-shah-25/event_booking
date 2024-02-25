@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import LoginPage from "./pages/login";
+import Signup from "./pages/signup";
 const App = () => {
   return (
     <>
@@ -9,6 +10,7 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/" element={<Navigate to="/login" replace />} />
       </Routes>
+
       <Sidebar path="/dashboard" />
     </>
   );

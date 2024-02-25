@@ -6,6 +6,7 @@ import Notifications from "../pages/Notifications";
 import Users from "../pages/Users";
 import CreateEvent from "./CreateEvent";
 import { useNavigate } from "react-router-dom";
+import logoimg from "../assets/logo_event.jpeg";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -42,14 +43,10 @@ const Sidebar = () => {
                 </svg>
               </button>
               {/* <a href="https://flowbite.com" class="flex ms-2 md:me-24"> */}
-              <img
-                src="https://flowbite.com/docs/images/logo.svg"
-                class="h-8 me-3"
-                alt="FlowBite Logo"
-              />
-              <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
+              <img src={logoimg} class="h-12 me-10" alt="Eventera Logo" />
+              {/* <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
                 Flowbite
-              </span>
+              </span> */}
               {/* </a> */}
             </div>
             <div class="flex items-center">

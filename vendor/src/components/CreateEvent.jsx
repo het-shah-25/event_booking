@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { message } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const CreateEvent = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     event_name: "",
     number_of_seats: "",
@@ -64,7 +67,7 @@ const CreateEvent = () => {
         }
       );
       message.success("Event created successfully");
-      // Optionally reset the form here
+      navigate("/events");
     } catch (error) {
       message.error(
         error.response?.data?.message || "Failed to create the event"
