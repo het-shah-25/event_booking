@@ -50,15 +50,14 @@ router.post(
     }
   }
 );
-//all events api
-
+//all events api this is for only admin side
 router.get("/eventlist", async (req, res) => {
   try {
     const events = await Event.find();
     res.json(events);
   } catch (error) {
     res
-      .status(500)
+      .status(404)
       .json({ message: "Error finding events", error: error.message });
   }
 });
@@ -69,7 +68,7 @@ router.get("/vendor/:email", async (req, res) => {
     const events = await Event.find({ vendor_email: vendorEmail });
     res.json(events);
   } catch (error) {
-    res.status(500).json({
+    res.status(404).json({
       message: "Error listing events by vendor email",
       error: error.message,
     });
@@ -79,22 +78,28 @@ router.get("/vendor/:email", async (req, res) => {
 router.get("/category/:category", async (req, res) => {
   const { category } = req.params;
   try {
-    const events = await Event.find({ category: category });
+    // Find events by category and status
+    const events = await Event.find({
+      category: category,
+      status: "activate", // Ensure only events with 'activate' status are fetched
+    });
+
     if (events.length > 0) {
       res.status(200).json(events);
     } else {
       res
         .status(404)
-        .json({ message: `No events found in category: ${category}` });
+        .json({ message: `No active events found in category: ${category}` });
     }
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      message: "Error fetching events by category",
+      message: "Error fetching active events by category",
       error: error.message,
     });
   }
 });
+
 //delete event api
 router.delete("/delete/:id", async (req, res) => {
   try {
@@ -149,4 +154,56 @@ router.get("/details/:id", async (req, res) => {
       .json({ message: "Error finding event details", error: error.message });
   }
 });
+
+// API to list all active events
+router.get("/active", async (req, res) => {
+  try {
+    const activeEvents = await Event.find({ status: "activate" });
+    res.json(activeEvents);
+  } catch (error) {
+    console.error("Failed to fetch active events:", error);
+    res
+      .status(500)
+      .json({ message: "Failed to fetch active events", error: error.message });
+  }
+});
+
+router.put(
+  "/update/:id",
+  upload.fields([
+    { name: "artist_img", maxCount: 1 },
+    { name: "banner_img", maxCount: 1 },
+    { name: "poster_img", maxCount: 1 },
+  ]),
+  async (req, res) => {
+    try {
+      const eventUpdates = req.body;
+      // Handling file uploads
+      if (req.files) {
+        if (req.files.artist_img)
+          eventUpdates.artist_img = req.files.artist_img[0].path;
+        if (req.files.banner_img)
+          eventUpdates.banner_img = req.files.banner_img[0].path;
+        if (req.files.poster_img)
+          eventUpdates.poster_img = req.files.poster_img[0].path;
+      }
+
+      const updatedEvent = await Event.findByIdAndUpdate(
+        req.params.id,
+        eventUpdates,
+        { new: true }
+      );
+      if (!updatedEvent) {
+        return res.status(404).json({ message: "Event not found" });
+      }
+      res.json({ message: "Event updated successfully", event: updatedEvent });
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .json({ message: "Failed to update the event", error: error.message });
+    }
+  }
+);
+
 module.exports = router;
