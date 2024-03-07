@@ -53,12 +53,12 @@ router.post(
 //all events api this is for only admin side
 router.get("/eventlist", async (req, res) => {
   try {
-    const events = await Event.find();
-    res.json(events);
+    const events = await Event.find(); // Fetch all events
+    res.json(events); // Send events as JSON response
   } catch (error) {
     res
-      .status(404)
-      .json({ message: "Error finding events", error: error.message });
+      .status(500)
+      .json({ message: "Error fetching events", error: error.message });
   }
 });
 // Route to list events by vendor email
@@ -205,5 +205,30 @@ router.put(
     }
   }
 );
+
+// In your events route file
+router.put("/update-status/:id", async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  try {
+    const updatedEvent = await Event.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true }
+    );
+    if (!updatedEvent) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+    res.json({
+      message: "Event status updated successfully",
+      event: updatedEvent,
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Failed to update event status", error: error.message });
+  }
+});
 
 module.exports = router;

@@ -3,63 +3,26 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { message } from "antd";
 const EventList = () => {
-  // Sample events data
   const [events, setEvents] = useState([]);
   const navigate = useNavigate();
-
   useEffect(() => {
-    fetchEvents();
-  }, []); // Removed navigate from dependencies to prevent re-fetching due to navigation
-
-  const fetchEvents = async () => {
-    const vendorEmail = localStorage.getItem("userEmail");
-    if (!vendorEmail) {
-      message.error("Vendor email not found. Please log in again.");
-      navigate("/login");
-      return;
-    }
-
-    try {
-      const response = await axios.get(
-        `http://localhost:5000/api/events/vendor/${vendorEmail}`
-      );
-      setEvents(response.data);
-    } catch (error) {
-      console.error("Failed to fetch events:", error);
-      message.error(error.response?.data?.message || "Failed to fetch events");
-    }
-  };
-
-  const deleteEvent = async (eventId) => {
-    try {
-      const response = await axios.delete(
-        `http://localhost:5000/api/events/delete/${eventId}`
-      );
-      if (response.status === 200) {
-        message.success("Event deleted successfully");
-        fetchEvents(); // Simply re-fetch the events without reloading the page
-      } else {
-        message.error("Failed to delete event");
+    const fetchEvents = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/api/events/eventlist"
+        ); // Update with your actual API URL
+        setEvents(response.data);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+        // Handle error (e.g., display a message)
       }
-    } catch (error) {
-      console.error("Failed to delete event:", error);
-      message.error(error.response?.data?.message || "Failed to delete event");
-    }
-  };
+    };
+
+    fetchEvents();
+  }, []);
 
   return (
     <div>
-      {/* Create Event Button */}
-      <div className="mb-4 text-right">
-        <button
-          type="button"
-          onClick={() => navigate("/create-event")}
-          className="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5"
-        >
-          Create Event
-        </button>
-      </div>
-
       {/* Event List Table */}
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -114,18 +77,11 @@ const EventList = () => {
                 </td>{" "}
                 <td className="px-6 py-4">
                   <button
-                    onClick={() => navigate(`/updateevent/${event._id}`)}
+                    onClick={() => navigate(`/event-details/${event._id}`)}
                     type="button"
                     class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                   >
-                    Update
-                  </button>
-                  <button
-                    onClick={() => deleteEvent(event._id)} // Use the event's ID
-                    type="button"
-                    class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-                  >
-                    Delete
+                    View Details
                   </button>
                 </td>
               </tr>

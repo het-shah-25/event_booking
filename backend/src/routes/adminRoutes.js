@@ -44,8 +44,6 @@ router.post("/login", async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
-
-    // Here you would typically issue a JWT token or start a session
     res.status(200).json({ message: "Admin logged in successfully" });
   } catch (error) {
     console.error(error);
