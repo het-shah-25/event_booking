@@ -206,28 +206,31 @@ router.put(
   }
 );
 
-// In your events route file
+// API to update event status
+// This would be in your backend routes file
+
 router.put("/update-status/:id", async (req, res) => {
   const { id } = req.params;
-  const { status } = req.body;
-
   try {
-    const updatedEvent = await Event.findByIdAndUpdate(
-      id,
-      { status },
-      { new: true }
-    );
-    if (!updatedEvent) {
+    const event = await Event.findById(id);
+
+    if (!event) {
       return res.status(404).json({ message: "Event not found" });
     }
-    res.json({
-      message: "Event status updated successfully",
-      event: updatedEvent,
-    });
+
+    if (event.status === "activate") {
+      return res.status(400).json({ message: "Event is already activated." });
+    }
+
+    event.status = "activate"; // or whatever status means 'activated' in your schema
+    await event.save();
+
+    res.json({ message: "Event activated successfully." });
   } catch (error) {
+    console.error(error);
     res
       .status(500)
-      .json({ message: "Failed to update event status", error: error.message });
+      .json({ message: "Error updating event status", error: error.message });
   }
 });
 

@@ -13,7 +13,7 @@ const AdminLoginPage = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/admin/login", // Update this URL to your admin login API endpoint
+        "https://api.theeventera.live/api/admin/login", // Update this URL to your admin login API endpoint
         {
           email: email,
           password: password,

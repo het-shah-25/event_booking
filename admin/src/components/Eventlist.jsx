@@ -20,7 +20,27 @@ const EventList = () => {
 
     fetchEvents();
   }, []);
-
+  const handleUpdateStatus = async (event) => {
+    if (event.status === "activate") {
+      message.warn("Event is already activated.");
+      return;
+    }
+    try {
+      await axios.put(
+        `http://localhost:5000/api/events/update-status/${event._id}`
+      );
+      message.success("Event activated successfully.");
+      setTimeout(() => {
+        // Refresh the event list after a successful status update
+        window.location.reload();
+      }, 2000);
+    } catch (error) {
+      console.error("Failed to update event status:", error);
+      message.error(
+        error.response?.data?.message || "Failed to update event status."
+      );
+    }
+  };
   return (
     <div>
       {/* Event List Table */}
@@ -63,15 +83,17 @@ const EventList = () => {
                     <button
                       type="button"
                       className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                      disabled
                     >
-                      Activate
+                      Activated
                     </button>
                   ) : (
                     <button
+                      onClick={() => handleUpdateStatus(event)}
                       type="button"
                       className="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900"
                     >
-                      Inactivate
+                      InActivated
                     </button>
                   )}
                 </td>{" "}

@@ -57,7 +57,7 @@ const UpdateEvent = () => {
 
     try {
       await axios.put(
-        `http://localhost:5000/api/events/update/${id}`,
+        `https://api.theeventera.live/api/events/update/${id}`,
         eventData,
         {
           headers: { "Content-Type": "multipart/form-data" },

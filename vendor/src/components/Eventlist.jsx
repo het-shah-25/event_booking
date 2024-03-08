@@ -21,7 +21,7 @@ const EventList = () => {
 
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/events/vendor/${vendorEmail}`
+        `https://api.theeventera.live/api/events/vendor/${vendorEmail}`
       );
       setEvents(response.data);
     } catch (error) {
@@ -33,7 +33,7 @@ const EventList = () => {
   const deleteEvent = async (eventId) => {
     try {
       const response = await axios.delete(
-        `http://localhost:5000/api/events/delete/${eventId}`
+        `https://api.theeventera.live/api/events/delete/${eventId}`
       );
       if (response.status === 200) {
         message.success("Event deleted successfully");

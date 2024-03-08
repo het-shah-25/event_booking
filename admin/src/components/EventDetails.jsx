@@ -10,7 +10,7 @@ const EventDetails = () => {
     const fetchEventDetails = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/events/details/${id}`
+          `https://api.theeventera.live/api/events/details/${id}`
         );
         setEventDetails(response.data);
       } catch (error) {
@@ -48,7 +48,7 @@ const EventDetails = () => {
           />
         </div>
         <img
-          src={`http://localhost:5000/${eventDetails.poster_img}`}
+          src={`https://api.theeventera.live/${eventDetails.poster_img}`}
           className="h-auto max-w-lg rounded-lg"
         />
       </div>

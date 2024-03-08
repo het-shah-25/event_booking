@@ -12,7 +12,7 @@ const LoginPage = ({ onLoginSuccess }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        "https://api.theeventera.live/api/auth/login",
         {
           user_email: email,
           user_password: password,

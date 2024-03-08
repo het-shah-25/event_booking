@@ -60,7 +60,7 @@ const CreateEvent = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/events/create",
+        "https://api.theeventera.live/api/events/create",
         data,
         {
           headers: { "Content-Type": "multipart/form-data" },
