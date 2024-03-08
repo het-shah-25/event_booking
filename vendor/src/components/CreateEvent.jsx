@@ -95,7 +95,7 @@ const CreateEvent = () => {
             placeholder="Type Event name"
             value={formData.event_name}
             onChange={handleChange}
-            required=""
+            required
           />
         </div>
 
@@ -114,7 +114,7 @@ const CreateEvent = () => {
             placeholder="Enter number of seats"
             value={formData.number_of_seats}
             onChange={handleChange}
-            required=""
+            required
           />
         </div>
         <div className="w-full">
@@ -132,7 +132,7 @@ const CreateEvent = () => {
             placeholder="₹2999"
             value={formData.price}
             onChange={handleChange}
-            required=""
+            required
           />
         </div>
         {/* Event Date */}
@@ -187,6 +187,7 @@ const CreateEvent = () => {
             value={formData.artist_name}
             onChange={handleChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+            required
           />
         </div>
         {/* Artist Description */}
@@ -222,6 +223,7 @@ const CreateEvent = () => {
               accept="image/png, image/jpeg"
               onChange={handleFileChange}
               className="w-full p-1 bg-transparent border-none focus:ring-0"
+              required
             />
           </div>
         </div>
