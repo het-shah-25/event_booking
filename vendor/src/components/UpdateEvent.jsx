@@ -23,7 +23,7 @@ const UpdateEvent = () => {
     const fetchEventDetails = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:5000/api/events/details/${id}`
+          `https://api.theeventera.live/api/events/details/${id}`
         );
         setEventData({
           ...data,

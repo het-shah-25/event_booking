@@ -240,6 +240,7 @@ const CreateEvent = () => {
               accept="image/png, image/jpeg"
               onChange={handleFileChange}
               className="w-full p-1 bg-transparent border-none focus:ring-0"
+              required
             />
           </div>
         </div>
@@ -258,6 +259,7 @@ const CreateEvent = () => {
               accept="image/png, image/jpeg"
               onChange={handleFileChange}
               className="w-full p-1 bg-transparent border-none focus:ring-0"
+              required
             />
           </div>
         </div>
@@ -332,6 +334,7 @@ const CreateEvent = () => {
             value={formData.description}
             onChange={handleChange}
             defaultValue={""}
+            required
           />
         </div>
       </div>
