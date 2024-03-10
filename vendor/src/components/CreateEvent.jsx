@@ -312,12 +312,13 @@ const CreateEvent = () => {
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
         >
           <option value="">Select category</option>{" "}
-          {/* It's recommended to have a value attribute even for placeholder options */}
-          <option value="Conference">Conference</option>
-          <option value="Workshop">Workshop</option>
-          <option value="Symposium">Symposium</option>
-          <option value="Meetup">Meetup</option>{" "}
-          {/* Removed trailing space in the value */}
+          <option value="Music">Music</option>{" "}
+          <option value="Dance">Dance</option>
+          <option value="Tech">Tech</option>
+          <option value="Theater">Theater</option>
+          <option value="Festival">Festival</option>
+          <option value="Sports">Sports</option>{" "}
+          <option value="Parties">Parties</option>
         </select>
 
         <div className="sm:col-span-2">
