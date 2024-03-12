@@ -52,6 +52,7 @@ const EventDetails = () => {
           className="h-auto max-w-lg rounded-lg"
         />
       </div>
+      <div dangerouslySetInnerHTML={{ __html: eventDetails.google_map_url }} />
     </form>
   );
 };

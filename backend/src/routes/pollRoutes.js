@@ -71,5 +71,14 @@ router.get("/:pollId", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+router.get("/fetch-polls/active", async (req, res) => {
+  try {
+    // Fetch only polls where poll_status is 'active'
+    const polls = await Poll.find({ poll_status: "active" });
+    res.status(200).json(polls);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 module.exports = router;

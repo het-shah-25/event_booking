@@ -12,7 +12,7 @@ const PollsDisplay = () => {
   const fetchPolls = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/polls/fetch-polls"
+        "http://localhost:5000/api/polls/fetch-polls/active"
       );
       setPolls(response.data);
     } catch (error) {

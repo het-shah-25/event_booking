@@ -274,8 +274,8 @@ const CreateEvent = () => {
           >
             Google Map URL
           </label>
-          <input
-            type="url"
+          <textarea
+            type="text"
             id="google_map_url"
             name="google_map_url"
             placeholder="Google Map URL"
