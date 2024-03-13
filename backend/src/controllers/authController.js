@@ -54,3 +54,35 @@ exports.registerUser = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+//write a api for login user only
+exports.loginUser = async (req, res) => {
+  const { user_email, user_password } = req.body;
+
+  try {
+    // Query using user_email
+    const user = await User.findOne({ user_email: user_email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const isMatch = await bcrypt.compare(user_password, user.user_password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+
+    // Check if the user is a vendor, and deny access if true
+    // if (user.isuservendor) {
+    //   return res
+    //     .status(403)
+    //     .json({ message: "Access denied. User is a vendor." });
+    // }
+
+    // Proceed with login since it's a valid user and not a vendor
+    res
+      .status(200)
+      .json({ message: "Login successful", user_name: user.user_name });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};

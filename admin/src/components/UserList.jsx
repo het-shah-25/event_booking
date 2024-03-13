@@ -10,7 +10,7 @@ const UserList = () => {
       try {
         // Adjust the URL to match your API endpoint
         const response = await axios.get(
-          "http://localhost:5000/api/user/users"
+          "http://localhost:5000/api/users/allusers"
         );
         setUsers(response.data); // Store the users in state
       } catch (error) {

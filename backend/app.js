@@ -21,6 +21,6 @@ app.use("/uploads", express.static("uploads"));
 app.use("/api/events", eventRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/polls", pollRoutes);
-app.use("/api/user", userRoutes);
+app.use("/api/users", userRoutes);
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

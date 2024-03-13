@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { message } from "antd";
 import { useNavigate } from "react-router-dom";
+import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 
 function CreatePoll() {
   const [question, setQuestion] = useState("");
@@ -10,6 +11,16 @@ function CreatePoll() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!question.trim()) {
+      message.error("Poll Question is required.");
+      return;
+    }
+    if (options.length < 2 || options.some((option) => option.trim() === "")) {
+      message.error(
+        "At least two options are required, and all options must be filled."
+      );
+      return;
+    }
     try {
       const response = await axios.post(
         "http://localhost:5000/api/polls/createpoll",
@@ -78,20 +89,22 @@ function CreatePoll() {
             <button
               type="button"
               onClick={() => removeOption(index)}
-              className="ml-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="ml-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline flex items-center justify-center"
             >
-              Remove
+              <AiOutlineMinus className="text-white" />
             </button>
           </div>
         ))}
         <div className="flex items-center justify-between mb-4">
-          <button
-            type="button"
-            onClick={addOption}
-            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            Add Option
-          </button>
+          <div className="flex justify-start">
+            <button
+              type="button"
+              onClick={addOption}
+              className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline flex items-center"
+            >
+              <AiOutlinePlus className="mr-2" />
+            </button>
+          </div>
         </div>
         <div>
           <button

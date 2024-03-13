@@ -41,6 +41,44 @@ const EventList = () => {
       );
     }
   };
+  function MaterialSymbolsDeleteOutlineSharp(props) {
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="1em"
+        height="1em"
+        viewBox="0 0 24 24"
+        {...props}
+      >
+        <path
+          fill="currentColor"
+          d="M5 21V6H4V4h5V3h6v1h5v2h-1v15zm2-2h10V6H7zm2-2h2V8H9zm4 0h2V8h-2zM7 6v13z"
+        ></path>
+      </svg>
+    );
+  }
+  const deleteEvent = async (eventId) => {
+    try {
+      const response = await axios.delete(
+        `https://api.theeventera.live/api/events/delete/${eventId}`
+      );
+      if (response.status === 200) {
+        message.success("Event deleted successfully");
+
+        // Wait for 2 seconds before reloading the page
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+
+        // If you prefer to re-fetch the events without reloading the entire page,
+        // simply call fetchEvents() here without the timeout and page reload.
+        fetchEvents();
+      }
+    } catch (error) {
+      console.error("Failed to delete event:", error);
+      message.error(error.response?.data?.message || "Failed to delete event");
+    }
+  };
   return (
     <div>
       {/* Event List Table */}
@@ -101,9 +139,23 @@ const EventList = () => {
                   <button
                     onClick={() => navigate(`/event-details/${event._id}`)}
                     type="button"
-                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                    style={{ backgroundColor: "#ED5858", color: "white" }} // Add this line for the normal state
+                    onMouseOver={(e) =>
+                      (e.currentTarget.style.backgroundColor = "#D45050")
+                    } // Darken on hover
+                    onMouseOut={(e) =>
+                      (e.currentTarget.style.backgroundColor = "#ED5858")
+                    } // Revert on mouse out
+                    class="focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-blue-800"
                   >
                     View Details
+                  </button>
+                  <button
+                    onClick={() => deleteEvent(event._id)} // Use the event's ID
+                    type="button"
+                    className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900 flex items-center gap-2"
+                  >
+                    <MaterialSymbolsDeleteOutlineSharp className="w-4 h-4" />{" "}
                   </button>
                 </td>
               </tr>
