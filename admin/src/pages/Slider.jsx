@@ -1,7 +1,7 @@
 import React from "react";
-
+import SliderList from "../components/SliderList";
 const Slider = () => {
-  return <div></div>;
+  return <SliderList />;
 };
 
 export default Slider;

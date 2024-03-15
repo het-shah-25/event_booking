@@ -207,8 +207,6 @@ router.put(
 );
 
 // API to update event status
-// This would be in your backend routes file
-
 router.put("/update-status/:id", async (req, res) => {
   const { id } = req.params;
   try {

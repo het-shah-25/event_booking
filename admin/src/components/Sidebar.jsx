@@ -12,6 +12,7 @@ import Poll from "../pages/polls";
 import CreatePoll from "./CreatePoll";
 import PollsDisplay from "./PollsDisplay";
 import PollDetails from "./PollDetails";
+import CreateSlider from "./CreateSlider";
 const Sidebar = () => {
   const navigate = useNavigate();
 
@@ -251,6 +252,7 @@ const Sidebar = () => {
             <Route path="/create-poll" element={<CreatePoll />} />
             <Route path="/polls-display" element={<PollsDisplay />} />
             <Route path="/polls/:pollId" element={<PollDetails />} />
+            <Route path="/create-slider" element={<CreateSlider />} />
           </Routes>
         </div>
       </div>

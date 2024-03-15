@@ -6,20 +6,19 @@ const EventList = () => {
   const [events, setEvents] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:5000/api/events/eventlist"
-        ); // Update with your actual API URL
-        setEvents(response.data);
-      } catch (error) {
-        console.error("Error fetching events:", error);
-        // Handle error (e.g., display a message)
-      }
-    };
-
     fetchEvents();
   }, []);
+  const fetchEvents = async () => {
+    try {
+      const response = await axios.get(
+        "https://api.theeventera.live/api/events/eventlist"
+      ); // Update with your actual API URL
+      setEvents(response.data);
+    } catch (error) {
+      console.error("Error fetching events:", error);
+      // Handle error (e.g., display a message)
+    }
+  };
   const handleUpdateStatus = async (event) => {
     if (event.status === "activate") {
       message.warn("Event is already activated.");
@@ -64,15 +63,8 @@ const EventList = () => {
       );
       if (response.status === 200) {
         message.success("Event deleted successfully");
-
-        // Wait for 2 seconds before reloading the page
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-
-        // If you prefer to re-fetch the events without reloading the entire page,
-        // simply call fetchEvents() here without the timeout and page reload.
         fetchEvents();
+        return;
       }
     } catch (error) {
       console.error("Failed to delete event:", error);
