@@ -8,20 +8,32 @@ const SliderList = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchSliders = async () => {
-      try {
-        const { data } = await axios.get(
-          "http://localhost:5000/api/sliders/allslider"
-        );
-        setSliders(data);
-      } catch (error) {
-        console.error("Error fetching slider items:", error);
-        message.error("Failed to fetch sliders.");
-      }
-    };
-
     fetchSliders();
   }, []);
+
+  const fetchSliders = async () => {
+    try {
+      const { data } = await axios.get(
+        "http://localhost:5000/api/sliders/allslider"
+      );
+      setSliders(data);
+    } catch (error) {
+      console.error("Error fetching slider items:", error);
+      message.error("Failed to fetch sliders.");
+    }
+  };
+
+  const deleteSlider = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/sliders/delete/${id}`);
+      message.success("Slider deleted successfully");
+      // Refresh the list of sliders
+      fetchSliders();
+    } catch (error) {
+      console.error("Error deleting slider item:", error);
+      message.error("Failed to delete slider.");
+    }
+  };
 
   return (
     <div>
@@ -29,7 +41,8 @@ const SliderList = () => {
         <button
           type="button"
           onClick={() => navigate("/create-slider")}
-          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          style={{ backgroundColor: "#ED5858" }}
+          className="text-white hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5"
         >
           Create Slider
         </button>
@@ -50,6 +63,9 @@ const SliderList = () => {
               <th scope="col" className="py-3 px-6">
                 Image
               </th>
+              <th scope="col" className="py-3 px-6">
+                Action
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -67,6 +83,14 @@ const SliderList = () => {
                     alt={slider.title}
                     className="w-20 h-20 object-cover"
                   />
+                </td>
+                <td className="py-4 px-6">
+                  <button
+                    onClick={() => deleteSlider(slider._id)}
+                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
+import { message } from "antd";
 const CreateSlider = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -43,6 +45,8 @@ const CreateSlider = () => {
         }
       );
       console.log(response.data);
+      message.success("Slider item created successfully");
+      navigate("/slider");
       // Handle success here (e.g., showing a success message, redirecting, etc.)
     } catch (error) {
       console.error(error);
@@ -82,7 +86,6 @@ const CreateSlider = () => {
           value={formData.description}
           onChange={handleChange}
           className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-          required
         ></textarea>
       </div>
 
